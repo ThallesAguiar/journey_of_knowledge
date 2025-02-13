@@ -1,0 +1,94 @@
+{
+    "questions": [
+        {
+            "pergunta": "O que é lógica de programação?",
+            "respostas": [
+                {
+                    "A": "Um método para resolver problemas de forma lógica e estruturada"
+                },
+                {
+                    "B": "Uma linguagem de programação específica"
+                },
+                {
+                    "C": "Um tipo de hardware"
+                },
+                {
+                    "D": "Um sistema operacional"
+                }
+            ],
+            "resposta_correta": "A"
+        },
+        {
+            "pergunta": "O que é PHP?",
+            "respostas": [
+                {
+                    "A": "Um tipo de linguagem de programação"
+                },
+                {
+                    "B": "Um método para resolver problemas de forma lógica e estruturada"
+                },
+                {
+                    "C": "Um tipo de hardware"
+                },
+                {
+                    "D": "Um sistema operacional"
+                }
+            ],
+            "resposta_correta": "A"
+        },
+        {
+            "pergunta": "Qual a função do PHP na lógica de programação?",
+            "respostas": [
+                {
+                    "A": "Facilitar a resolução de problemas matemáticos"
+                },
+                {
+                    "B": "Criar interfaces gráficas"
+                },
+                {
+                    "C": "Permitir a interação com bancos de dados"
+                },
+                {
+                    "D": "Controlar o hardware do computador"
+                }
+            ],
+            "resposta_correta": "C"
+        },
+        {
+            "pergunta": "Como se declara uma variável em PHP?",
+            "respostas": [
+                {
+                    "A": "$var"
+                },
+                {
+                    "B": "var ="
+                },
+                {
+                    "C": "variable()"
+                },
+                {
+                    "D": "declaration(var)"
+                }
+            ],
+            "resposta_correta": "A"
+        },
+        {
+            "pergunta": "O que é um loop em programação?",
+            "respostas": [
+                {
+                    "A": "Uma função matemática"
+                },
+                {
+                    "B": "Um tipo de variável"
+                },
+                {
+                    "C": "Um bloco de código que se repete enquanto uma condição é verdadeira"
+                },
+                {
+                    "D": "Uma instrução condicional"
+                }
+            ],
+            "resposta_correta": "C"
+        }
+    ]
+}
