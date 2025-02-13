@@ -8,50 +8,76 @@ class QuestionController extends Controller {
         super(); // Chama o construtor da classe pai
     }
 
+    private questionsAlreadyGenerated: any[] = [];
     private questions: any[] = [];
+    private errors: any[] = [];
+    private warnings: any[] = [];
 
     // Usando arrow function para garantir o contexto correto do "this"
-    index = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    index = async (req: Request, res: Response): Promise<void> => {
 
         try {
-            res.json({ error: false, msg: "List of questions", result: this.questions });
+            res.json({
+                error: false, 
+                msg: "List of questions", 
+                errors: this.errors,
+                warnings: this.warnings, 
+                result: this.questionsAlreadyGenerated
+            });
         } catch (err: any) {
-            next(err);
+            res.status(500).json({
+                error: true,
+                msg: "Error",
+                errors: this.errors.push(err),
+                warnings: this.warnings,
+                result: {},
+            });
         }
     };
 
-    store = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    store = async (req: Request, res: Response): Promise<void> => {
         try {
             let notRepeat = "";
-            const { theme, discipline, description , level } = req.body;
+            const { theme, discipline, description } = req.body;
 
-            if (this.questions.length > 0) {
-                notRepeat = this.questions.join("; ");
+            if (this.questionsAlreadyGenerated.length > 0) {
+                notRepeat = this.questionsAlreadyGenerated.join("; ");
             }
 
-            const question = await generateQuestions(theme, discipline, description, level, notRepeat);
+            const question = await generateQuestions(theme, discipline, description, "", notRepeat);
 
+            this.questionsAlreadyGenerated.push(question.question);
             this.questions.push(question.question);
 
             res.status(201).json({
                 error: false,
                 msg: "Created",
-                result: question,
-                questions: this.questions,
-                notRepeat
+                errors: this.errors,
+                warnings: this.warnings,
+                result: {
+                    question,
+                    questionsAlreadyGenerated: this.questionsAlreadyGenerated,
+                    notRepeat
+                },
             });
         } catch (err: any) {
-            next(err);
+            res.status(500).json({
+                error: true,
+                msg: "Error",
+                errors: this.errors.push(err),
+                warnings: this.warnings,
+                result: {},
+            });
         }
     };
 
 
 
 
-    show = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    show = async (req: Request, res: Response): Promise<void> => {
         try {
             const id = parseInt(req.params.id);
-            const item = this.questions.find((item) => item.id === id);
+            const item = this.questionsAlreadyGenerated.find((item) => item.id === id);
 
             if (!item) {
                 res.status(404).json({ error: true, msg: "Item not found" });
@@ -60,16 +86,22 @@ class QuestionController extends Controller {
 
             res.json({ error: false, msg: "Item found", result: item });
         } catch (err: any) {
-            next(err);
+            res.status(500).json({
+                error: false,
+                msg: "Error",
+                errors: this.errors.push(err),
+                warnings: this.warnings,
+                result: {},
+            });
         }
     }
 
-    update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    update = async (req: Request, res: Response): Promise<void> => {
         try {
             const id = parseInt(req.params.id);
             const { name, description } = req.body;
 
-            const itemIndex = this.questions.findIndex((item) => item.id === id);
+            const itemIndex = this.questionsAlreadyGenerated.findIndex((item) => item.id === id);
 
             if (itemIndex === -1) {
                 res.status(404).json({ error: true, msg: "Item not found" });
@@ -81,29 +113,41 @@ class QuestionController extends Controller {
                 return;
             }
 
-            this.questions[itemIndex] = { ...this.questions[itemIndex], name, description };
+            this.questionsAlreadyGenerated[itemIndex] = { ...this.questionsAlreadyGenerated[itemIndex], name, description };
 
-            res.json({ error: false, msg: "Updated", result: this.questions[itemIndex] });
+            res.json({ error: false, msg: "Updated", result: this.questionsAlreadyGenerated[itemIndex] });
         } catch (err: any) {
-            next(err);
+            res.status(500).json({
+                error: false,
+                msg: "Error",
+                errors: this.errors.push(err),
+                warnings: this.warnings,
+                result: {},
+            });
         }
     }
 
-    destroy = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    destroy = async (req: Request, res: Response): Promise<void> => {
         try {
             const id = parseInt(req.params.id);
-            const itemIndex = this.questions.findIndex((item) => item.id === id);
+            const itemIndex = this.questionsAlreadyGenerated.findIndex((item) => item.id === id);
 
             if (itemIndex === -1) {
                 res.status(404).json({ error: true, msg: "Item not found" });
                 return;
             }
 
-            const deletedItem = this.questions.splice(itemIndex, 1);
+            const deletedItem = this.questionsAlreadyGenerated.splice(itemIndex, 1);
 
             res.json({ error: false, msg: "Deleted", result: deletedItem });
         } catch (err: any) {
-            next(err);
+            res.status(500).json({
+                error: false,
+                msg: "Error",
+                errors: this.errors.push(err),
+                warnings: this.warnings,
+                result: {},
+            });
         }
     }
 }

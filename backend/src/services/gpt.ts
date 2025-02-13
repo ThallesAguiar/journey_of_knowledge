@@ -33,9 +33,9 @@ interface Question {
   correct_answer: string;
 }
 
-export const generateQuestions = async (theme: string, discipline: string, description: string = "", level: string, notRepeat: string = ""): Promise<Question> => {
+export const generateQuestions = async (theme: string = "conhecimentos gerais", discipline: string = "", description: string = "", level: string = "", notRepeat: string = ""): Promise<Question> => {
   const prompt = `
-  Gere uma pergunta única e inédita sobre **${theme}** na disciplina de **${discipline}** em um nível **${level}**.
+  Gere uma pergunta única e inédita sobre **${theme}** ${discipline ? "na disciplina de **" + discipline + "**" : ""}  ${level ? "em um nível **" + level + "**" : ""}.
 
     - A pergunta deve ser objetiva, clara e instigante, no formato de múltipla escolha.
     - Forneça quatro alternativas possíveis, rotuladas como **A, B, C e D**, garantindo que apenas uma delas seja correta.

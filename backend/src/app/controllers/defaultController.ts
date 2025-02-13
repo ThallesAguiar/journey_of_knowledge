@@ -8,17 +8,25 @@ class DefaultController extends Controller {
     }
     
     private data: any[] = [];
+    private errors: any[] = [];
+    private warnings: any[] = [];
 
     // Usando arrow function para garantir o contexto correto do "this"
-    index = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    index = async (req: Request, res: Response): Promise<void> => {
         try {
             res.json({ error: false, msg: "List of items", result: this.data });
         } catch (err: any) {
-            next(err);
+            res.status(500).json({
+                error: false,
+                msg: "Error",
+                errors: this.errors.push(err),
+                warnings: this.warnings,
+                result: {},
+            });
         }
     };
 
-    store = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    store = async (req: Request, res: Response): Promise<void> => {
         try {
             const { name, description } = req.body;
 
@@ -32,12 +40,18 @@ class DefaultController extends Controller {
 
             res.status(201).json({ error: false, msg: "Created", result: newItem });
         } catch (err: any) {
-            next(err);
+            res.status(500).json({
+                error: false,
+                msg: "Error",
+                errors: this.errors.push(err),
+                warnings: this.warnings,
+                result: {},
+            });
         }
     }
 
 
-    show = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    show = async (req: Request, res: Response): Promise<void> => {
         try {
             const id = parseInt(req.params.id);
             const item = this.data.find((item) => item.id === id);
@@ -49,11 +63,17 @@ class DefaultController extends Controller {
 
             res.json({ error: false, msg: "Item found", result: item });
         } catch (err: any) {
-            next(err);
+            res.status(500).json({
+                error: false,
+                msg: "Error",
+                errors: this.errors.push(err),
+                warnings: this.warnings,
+                result: {},
+            });
         }
     }
 
-    update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    update = async (req: Request, res: Response): Promise<void> => {
         try {
             const id = parseInt(req.params.id);
             const { name, description } = req.body;
@@ -74,11 +94,17 @@ class DefaultController extends Controller {
 
             res.json({ error: false, msg: "Updated", result: this.data[itemIndex] });
         } catch (err: any) {
-            next(err);
+            res.status(500).json({
+                error: false,
+                msg: "Error",
+                errors: this.errors.push(err),
+                warnings: this.warnings,
+                result: {},
+            });
         }
     }
 
-    destroy = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    destroy = async (req: Request, res: Response): Promise<void> => {
         try {
             const id = parseInt(req.params.id);
             const itemIndex = this.data.findIndex((item) => item.id === id);
@@ -92,7 +118,13 @@ class DefaultController extends Controller {
 
             res.json({ error: false, msg: "Deleted", result: deletedItem });
         } catch (err: any) {
-            next(err);
+            res.status(500).json({
+                error: false,
+                msg: "Error",
+                errors: this.errors.push(err),
+                warnings: this.warnings,
+                result: {},
+            });
         }
     }
 }
