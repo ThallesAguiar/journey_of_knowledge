@@ -1,0 +1,101 @@
+/* QuizForm.css */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 30px;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #1a1a2e;
+  color: white;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 800px;
+  background-color: #0f3460;
+  padding: 35px;
+  border-radius: 12px;
+  margin: 40px 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+.form-title {
+  color: #f9c80e;
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-label {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #66fcf1;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  background-color: #2C394B;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  color: white;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #f9c80e;
+  box-shadow: 0 0 10px rgba(249, 200, 14, 0.3);
+}
+
+textarea.form-input {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .form-card {
+    padding: 25px;
+  }
+  
+  .form-title {
+    font-size: 26px;
+  }
+  
+  .form-label {
+    font-size: 18px;
+  }
+  
+  .form-input {
+    padding: 12px;
+    font-size: 16px;
+  }
+}

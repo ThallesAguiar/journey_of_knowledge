@@ -1,0 +1,805 @@
+/* QuizGame.css */
+.quiz-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 30px;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #1a1a2e;
+  color: white;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow-y: auto; /* Permitir rolagem vertical se necessário */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background-color: #16213e;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.game-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.game-info-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f9c80e;
+}
+
+.timer {
+  font-size: 28px;
+  font-weight: 700;
+  color: #66fcf1;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 6px 15px;
+  border-radius: 25px;
+  transition: color 0.3s ease;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.timer-warning {
+  color: #ff2e63;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.game-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+  box-sizing: border-box;
+}
+
+/* Seção inicial com instruções */
+.start-instruction {
+  text-align: center;
+  margin: 50px 0;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  max-width: 800px;
+}
+
+.start-instruction h2 {
+  color: #f9c80e;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.start-instruction p {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+/* Seção do Dado */
+.dice-initial-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 40px 0;
+  padding: 30px;
+  background-color: rgba(15, 52, 96, 0.5);
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dice-instructions {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #66fcf1;
+}
+
+.dice-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.dice {
+  width: 120px;
+  height: 120px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(249, 200, 14, 0.7);
+  position: relative;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dice-rolling {
+  animation: diceRoll 0.5s ease-in-out infinite;
+}
+
+@keyframes diceRoll {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  25% { transform: rotateX(90deg) rotateY(0deg); }
+  50% { transform: rotateX(180deg) rotateY(90deg); }
+  75% { transform: rotateX(270deg) rotateY(180deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+.dice-dot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #1a1a2e;
+  border-radius: 50%;
+}
+
+.dice-dot-middle {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dice-dot-top-left {
+  top: 20%;
+  left: 20%;
+}
+
+.dice-dot-top-right {
+  top: 20%;
+  right: 20%;
+}
+
+.dice-dot-middle-left {
+  top: 50%;
+  left: 20%;
+  transform: translateY(-50%);
+}
+
+.dice-dot-middle-right {
+  top: 50%;
+  right: 20%;
+  transform: translateY(-50%);
+}
+
+.dice-dot-bottom-left {
+  bottom: 20%;
+  left: 20%;
+}
+
+.dice-dot-bottom-right {
+  bottom: 20%;
+  right: 20%;
+}
+
+.roll-dice-button {
+  padding: 16px 45px;
+  font-size: 22px;
+  font-weight: 600;
+  background-color: #ff2e63;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.roll-dice-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+  background-color: #ff517b;
+}
+
+.roll-dice-button:active {
+  transform: translateY(1px);
+}
+
+.stake-announcement {
+  text-align: center;
+  margin-top: 10px;
+  animation: fadeIn 0.5s;
+}
+
+.stake-announcement p {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.dice-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: #f9c80e;
+  text-shadow: 0 0 10px rgba(249, 200, 14, 0.5);
+}
+
+.loading-question {
+  color: #66fcf1;
+  font-size: 20px;
+  margin-top: 20px;
+  animation: fadeInOut 2s infinite;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Seção da Pergunta */
+.question-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+  box-sizing: border-box;
+  margin-bottom: 80px;
+}
+
+.question-stake {
+  font-size: 22px;
+  background-color: rgba(249, 200, 14, 0.2);
+  padding: 10px 25px;
+  border-radius: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #f9c80e;
+}
+
+.dice-value-small {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.question-card {
+  width: 100%;
+  background-color: #0f3460;
+  padding: 35px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.question-card h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.preparing-message {
+  font-size: 22px;
+  color: #66fcf1;
+  margin: 40px 0;
+  animation: fadeInOut 2s infinite;
+}
+
+.answers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.answer-card {
+  display: flex;
+  align-items: center;
+  padding: 25px;
+  background-color: #2C394B;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+  min-height: 80px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  box-sizing: border-box;
+  height: auto;
+}
+
+.answer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+  border-color: #ffffff40;
+}
+
+.answer-letter {
+  background-color: #ff2e63;
+  color: white;
+  font-weight: bold;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.answer-text {
+  font-size: 20px;
+  font-weight: 500;
+  flex: 1;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  hyphens: auto;
+}
+
+.answer-card.correct {
+  background-color: #2ecc71;
+  border-color: #27ae60;
+  animation: correctAnswer 0.5s;
+}
+
+.answer-card.incorrect {
+  background-color: #e74c3c;
+  border-color: #c0392b;
+  animation: incorrectAnswer 0.5s;
+}
+
+@keyframes correctAnswer {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes incorrectAnswer {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  50% { transform: translateX(10px); }
+  75% { transform: translateX(-10px); }
+  100% { transform: translateX(0); }
+}
+
+.feedback-message {
+  margin-top: 40px;
+  font-size: 26px;
+  font-weight: 600;
+  padding: 18px 35px;
+  border-radius: 8px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.correct-feedback {
+  background-color: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+}
+
+.incorrect-feedback {
+  background-color: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #f9c80e;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Botão Próximo */
+.next-button {
+  margin-top: 30px;
+  padding: 15px 40px;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: #f9c80e;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  z-index: 10;
+}
+
+.next-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+  background-color: #ffda44;
+}
+
+.next-button:active {
+  transform: translateY(1px);
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .quiz-header, .game-section, .question-section {
+    max-width: 95%;
+  }
+  
+  .dice {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .dice-dot {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .dice-instructions {
+    font-size: 24px;
+  }
+  
+  .question-card h2 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .answers-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .dice {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .dice-dot {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .dice-instructions {
+    font-size: 20px;
+  }
+  
+  .dice-value {
+    font-size: 30px;
+  }
+  
+  .question-card h2 {
+    font-size: 22px;
+  }
+  
+  .timer {
+    font-size: 20px;
+  }
+  
+  .quiz-container {
+    padding: 15px;
+  }
+  
+  .roll-dice-button, .next-button {
+    padding: 12px 30px;
+    font-size: 18px;
+  }
+  
+  .stake-announcement p {
+    font-size: 20px;
+  }
+  
+  .question-stake {
+    font-size: 18px;
+    padding: 8px 20px;
+  }
+  
+  .dice-value-small {
+    font-size: 24px;
+  }
+  
+  .start-instruction h2 {
+    font-size: 26px;
+  }
+  
+  .start-instruction p {
+    font-size: 18px;
+  }
+}
+
+/* Adicionar ao final do arquivo CSS existente */
+
+/* Container para os botões de ação */
+.action-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Estilo compartilhado para botões */
+.roll-dice-button,
+.finish-button,
+.back-button {
+  padding: 16px 45px;
+  font-size: 22px;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Estilos específicos */
+.roll-dice-button {
+  background-color: #ff2e63;
+  color: white;
+}
+
+.finish-button {
+  background-color: #66fcf1;
+  color: #1a1a2e;
+}
+
+.back-button {
+  background-color: #f9c80e;
+  color: #1a1a2e;
+}
+
+/* Efeitos hover */
+.roll-dice-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+  background-color: #ff517b;
+}
+
+.finish-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+  background-color: #7bffff;
+}
+
+.back-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+  background-color: #ffda44;
+}
+
+/* Efeito de clique */
+.roll-dice-button:active,
+.finish-button:active, 
+.back-button:active {
+  transform: translateY(1px);
+}
+
+/* Estilo para botões durante carregamento */
+.button-loading {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Spinner para indicar carregamento */
+.button-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: currentColor;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+/* Estilo do pergaminho de conhecimento */
+.knowledge-scroll-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: 100%; */
+  height: 100%;
+  min-height: 70vh;
+  padding: 20px;
+}
+
+.knowledge-scroll {
+  background-color: #f7e6c5;
+  color: #472d0c;
+  padding: 40px;
+  border-radius: 8px;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 8px solid #916721;
+  position: relative;
+  animation: unfoldScroll 1s ease-out;
+}
+
+.knowledge-scroll:before,
+.knowledge-scroll:after {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: calc(100% - 40px);
+  background-color: #916721;
+  border-radius: 10px;
+}
+
+.knowledge-scroll:before {
+  top: 10px;
+  left: 20px;
+}
+
+.knowledge-scroll:after {
+  bottom: 10px;
+  left: 20px;
+}
+
+.knowledge-scroll h2 {
+  color: #6a3805;
+  font-size: 32px;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.knowledge-scroll p {
+  font-size: 22px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  font-style: italic;
+}
+
+.back-to-menu-button {
+  padding: 14px 35px;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: #916721;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+}
+
+.back-to-menu-button:hover {
+  background-color: #b7863a;
+  transform: translateY(-3px);
+}
+
+@keyframes unfoldScroll {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsividade para os novos elementos */
+@media (max-width: 768px) {
+  .action-buttons-container {
+    max-width: 250px;
+  }
+  
+  .roll-dice-button,
+  .finish-button,
+  .back-button {
+    padding: 12px 30px;
+    font-size: 18px;
+  }
+  
+  .knowledge-scroll {
+    padding: 30px 20px;
+  }
+  
+  .knowledge-scroll h2 {
+    font-size: 24px;
+  }
+  
+  .knowledge-scroll p {
+    font-size: 18px;
+  }
+  
+  .back-to-menu-button {
+    padding: 10px 25px;
+    font-size: 16px;
+  }
+}
+
+/* Add this to your existing styles.css */
+
+.dice-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 30px 0;
+  animation: fadeIn 0.5s;
+}
+
+.dice-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0 30px;
+  padding: 30px;
+  background-color: rgba(15, 52, 96, 0.5);
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+}
+
+.dice-result .dice {
+  margin-bottom: 20px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  width: 100%;
+}
+
+.loading-container p {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #66fcf1;
+}
