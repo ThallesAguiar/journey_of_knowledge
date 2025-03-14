@@ -1,31 +1,21 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import json5 from 'json5'; // Biblioteca para lidar com JSON malformado
 
 dotenv.config();
 
 const GPT_API_URL = 'https://api.openai.com/v1/chat/completions';
 const GPT_API_KEY = process.env.GPT_API_KEY;
 
+// Função para corrigir JSON malformado
 const fixJson = (jsonString: string) => {
   try {
-    return JSON.parse(jsonString);
+    return json5.parse(jsonString); // Usa json5 para parsing mais tolerante
   } catch (error) {
-    try {
-      // Tenta corrigir problemas comuns no JSON retornado
-      const fixedJsonString = jsonString
-        .replace(/(\r\n|\n|\r)/gm, '') // Remove quebras de linha
-        .replace(/,\s*}/g, '}') // Remove vírgulas extras antes de chaves fechando objetos
-        .replace(/,\s*]/g, ']') // Remove vírgulas extras antes de fechar arrays
-        .replace(/'/g, '"'); // Substitui aspas simples por aspas duplas
-
-      return JSON.parse(fixedJsonString);
-    } catch (fixError) {
-      console.error('Erro ao corrigir o JSON:', fixError);
-      throw new Error('Erro ao processar as perguntas retornadas');
-    }
+    console.error('Erro ao corrigir o JSON:', error);
+    throw new Error('Erro ao processar as perguntas retornadas');
   }
 };
-
 
 interface Question {
   question: string;
@@ -33,29 +23,42 @@ interface Question {
   correct_answer: string;
 }
 
-export const generateQuestions = async (theme: string = "conhecimentos gerais", discipline: string = "", description: string = "", level: string = "", notRepeat: string = ""): Promise<Question> => {
+export const generateQuestions = async (
+  theme: string = "",
+  discipline: string = "",
+  description: string = "",
+  level: string = "",
+  notRepeat: string = ""
+): Promise<Question> => {
   const prompt = `
-  Gere uma pergunta única e inédita sobre **${theme}** ${discipline ? "na disciplina de **" + discipline + "**" : ""}  ${level ? "em um nível **" + level + "**" : ""}.
+  Gere uma pergunta única e inédita sobre **${theme ? " o tema " + theme : "conhecimentos gerais "}** ${discipline ? " na disciplina de **" + discipline + "**" : ""}  ${level ? "em um nível **" + level + "**" : ""}.
 
-    - A pergunta deve ser objetiva, clara e instigante, no formato de múltipla escolha.
-    - Forneça quatro alternativas possíveis, rotuladas como **A, B, C e D**, garantindo que apenas uma delas seja correta.
-    ${description ? `    - ${description}` : ""}
-    - A pergunta e as alternativas devem seguir um tom semelhante ao do jogo *Conhecimento é Poder*, incentivando o raciocínio e o aprendizado.
-    - ⚠️ **IMPORTANTE:** As seguintes perguntas JÁ FORAM GERADAS e NÃO PODEM SER REPETIDAS. Crie uma nova pergunta completamente diferente das listadas abaixo:
-      ${notRepeat ? `Perguntas já geradas:\n"""${notRepeat}"""\n` : ""}
-    - Você deve garantir que a nova pergunta NÃO tenha conteúdo semelhante às listadas acima.
-    - Pode gerar imagens se possível, perguntando o que a imagem representa.
-    - Retorne a pergunta no seguinte formato JSON:
-    {
-      "question": "<PERGUNTA_GERADA>",
-      "answers": [
-        {"A": "<ALTERNATIVA_A>"},
-        {"B": "<ALTERNATIVA_B>"},
-        {"C": "<ALTERNATIVA_C>"},
-        {"D": "<ALTERNATIVA_D>"}
-      ],
-      "correct_answer": "<LETRA_DA_ALTERNATIVA_CORRETA>"
-    }`;
+  - A pergunta deve ser objetiva, clara e instigante, no formato de múltipla escolha.
+  - Forneça quatro alternativas possíveis, rotuladas como **A, B, C e D**, garantindo que apenas uma delas seja correta.
+  ${description ? `    - Use esta descrição para mais detalhes, "${description}"` : ""}
+  - A pergunta e as alternativas devem seguir um tom semelhante ao do jogo *Conhecimento é Poder*, incentivando o raciocínio e o aprendizado.
+  - ⚠️ **IMPORTANTE:** As seguintes perguntas JÁ FORAM GERADAS e NÃO PODEM SER REPETIDAS. Crie uma nova pergunta completamente diferente das listadas abaixo:
+    ${notRepeat ? `Perguntas já geradas:\n"""${notRepeat}"""\n` : ""}
+  - Você deve garantir que a nova pergunta NÃO tenha conteúdo semelhante às listadas acima.
+  - CRITÉRIOS ABSOLUTOS DE UNICIDADE:
+    * A pergunta DEVE ser completamente diferente das anteriores
+    * Evite similaridade em:
+      - Contexto temático
+      - Estrutura da pergunta
+      - Palavras-chave
+    * Se identificar qualquer semelhança, descarte e gere uma nova pergunta
+  - As respostas devem vir sempre em alternativas misturadas, exemplo nunca fique repetindo a resposta correta na mesma posição.
+  - Retorne a pergunta no seguinte formato JSON:
+  {
+    "question": "<PERGUNTA_GERADA>",
+    "answers": [
+      {"A": "<ALTERNATIVA_A>"},
+      {"B": "<ALTERNATIVA_B>"},
+      {"C": "<ALTERNATIVA_C>"},
+      {"D": "<ALTERNATIVA_D>"}
+    ],
+    "correct_answer": "<LETRA_DA_ALTERNATIVA_CORRETA>"
+  }`;
 
   try {
     console.log('Enviando requisição para a API do GPT...');
@@ -66,7 +69,7 @@ export const generateQuestions = async (theme: string = "conhecimentos gerais", 
         messages: [
           {
             role: "system",
-            content: "Você é o apresentador do jogo 'Conhecimento é Poder'. Sua função é gerar perguntas desafiadoras e envolventes para os jogadores. Apresente as perguntas de forma clara e objetiva, garantindo que estejam no formato correto para o jogo."
+            content: "Você é o apresentador do jogo 'Conhecimento é Poder'. Sua função é gerar perguntas desafiadoras e envolventes para os jogadores. Apresente as perguntas de forma clara e objetiva, garantindo que estejam no formato correto para o jogo. Não repita perguntas anteriores e evite conteúdo ofensivo ou inapropriado. Boa sorte!",
           },
           {
             role: 'user',
@@ -95,10 +98,10 @@ export const generateQuestions = async (theme: string = "conhecimentos gerais", 
 
     const question = fixJson(content);
 
-    // 🚨 Verificação extra para garantir unicidade localmente
+    // Verificação extra para garantir unicidade localmente
     if (notRepeat.includes(question.question)) {
       console.warn("Pergunta gerada já existe! Tentando novamente...");
-      return await generateQuestions(theme, discipline, level, notRepeat);
+      return await generateQuestions(theme, discipline, description, level, notRepeat);
     }
 
     console.log('JSON parseado com sucesso:', question);
