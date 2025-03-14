@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { generateQuestions } from '../../services/gpt';
+import { generateQuestions } from '../../services/questions';
 // import questions from '../questions.json';
 
 export const generateQuiz = async (req: Request, res: Response) => {

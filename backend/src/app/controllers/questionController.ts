@@ -1,6 +1,6 @@
 import Controller from "./controller";
 import { Request, Response, NextFunction } from 'express';
-import { generateQuestions } from '../../services/gpt';
+import { generateQuestions } from '../../services/questions';
 import * as tf from '@tensorflow/tfjs'; // Para embeddings e similaridade semântica
 
 class QuestionController extends Controller {

@@ -1,6 +1,6 @@
 import Controller from "./controller";
 import { Request, Response } from 'express';
-import { generateParchments } from '../../services/parchment';
+import { generateParchments } from '../../services/parchments';
 
 
 class ParchmentController extends Controller {
