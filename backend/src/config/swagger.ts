@@ -12,11 +12,11 @@ const options: swaggerJSDoc.Options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000/api',
+        url: 'http://localhost:3333/api',
         description: 'Servidor de Desenvolvimento',
       },
       {
-        url: 'https://jok.api:3000/api',
+        url: 'https://jok.api:3333/api',
         description: 'Servidor de Produção',
       },
     ],
