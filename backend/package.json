@@ -13,10 +13,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@tensorflow/tfjs-node": "^4.22.0",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "json5": "^2.2.3",
     "openai": "^4.81.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
